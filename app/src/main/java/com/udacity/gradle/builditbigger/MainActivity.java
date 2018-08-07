@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.udacity.demur.jokesjavalib.JokesProvider;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+        JokesProvider jokesProvider = new JokesProvider();
+        Toast.makeText(this, jokesProvider.getJoke(), Toast.LENGTH_LONG).show();
     }
 }
