@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">JokePresenter</string>
+    <string name="missing_joke">No joke to tell ;-(</string>
+</resources>
