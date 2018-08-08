@@ -1,7 +1,5 @@
 package com.udacity.demur.builditbigger;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -9,17 +7,17 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.udacity.demur.builditbigger.backend.myApi.MyApi;
-import com.udacity.demur.jokepresenter.JokeActivity;
 
 import java.io.IOException;
 
-class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<EndpointsAsyncTask.JokeCallback, Void, String> {
     private static MyApi myApiService = null;
-    private Context context;
+    private JokeCallback callback;
+    private boolean errorFlag = false;
 
     @Override
-    protected String doInBackground(Context... contexts) {
-        if (myApiService == null) {  // Only do this once
+    protected String doInBackground(JokeCallback... params) {
+        if (null == myApiService) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -36,19 +34,24 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
 
             myApiService = builder.build();
         }
-        context = contexts[0];
+        callback = params[0];
 
         try {
             return myApiService.getJokeResponse().execute().getJoke();
         } catch (IOException e) {
+            errorFlag = true;
             return e.getMessage();
         }
     }
 
     @Override
     protected void onPostExecute(String result) {
-        final Intent intent = new Intent(context, JokeActivity.class);
-        intent.putExtra(JokeActivity.JOKE_EXTRAS_KEY, result);
-        context.startActivity(intent);
+        if (null != callback) {
+            callback.fire(result, errorFlag);
+        }
+    }
+
+    public interface JokeCallback {
+        void fire(String result, boolean flag);
     }
 }

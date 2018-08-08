@@ -1,10 +1,16 @@
 package com.udacity.demur.builditbigger;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.udacity.demur.jokepresenter.JokeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +43,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        new EndpointsAsyncTask().execute(this);
+        final AsyncTask<EndpointsAsyncTask.JokeCallback, Void, String> loadJoke = new EndpointsAsyncTask();
+        loadJoke.execute(new EndpointsAsyncTask.JokeCallback() {
+            @Override
+            public void fire(final String result, boolean errorFlag) {
+                if (errorFlag) {
+                    Log.e("Error loading joke:", result);
+                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                } else {
+                    launchJokeActivity(result);
+                }
+            }
+        });
+    }
+
+    private void launchJokeActivity(String joke) {
+        final Intent intent = new Intent(this, JokeActivity.class);
+        intent.putExtra(JokeActivity.JOKE_EXTRAS_KEY, joke);
+        this.startActivity(intent);
     }
 }
