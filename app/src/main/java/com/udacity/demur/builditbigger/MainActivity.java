@@ -1,14 +1,10 @@
 package com.udacity.demur.builditbigger;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.udacity.demur.jokepresenter.JokeActivity;
-import com.udacity.demur.jokesjavalib.JokesProvider;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Intent intent = new Intent(this, JokeActivity.class);
-        JokesProvider jokesProvider = new JokesProvider();
-        intent.putExtra(JokeActivity.JOKE_EXTRAS_KEY, jokesProvider.getJoke());
-        startActivity(intent);
+        new EndpointsAsyncTask().execute(this);
     }
 }
