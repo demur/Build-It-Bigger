@@ -1,4 +1,4 @@
-package com.udacity.gradle.builditbigger.backend;
+package com.udacity.demur.builditbigger.backend;
 
 /**
  * The object model for the data we are sending through endpoints
