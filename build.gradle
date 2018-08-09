@@ -20,3 +20,21 @@ allprojects {
         jcenter()
     }
 }
+
+task startAppEngine(dependsOn: ':backend:appengineStart') {
+    doLast { println "Local AppEngine started." }
+}
+
+task runGCEAndroidTests(dependsOn: ':app:connectedAndroidTest') {
+    shouldRunAfter 'startAppEngine'
+    doLast { println "Endpoint testing is done." }
+}
+
+task stopAppEngine(dependsOn: ':backend:appengineStop') {
+    doLast { println "Local AppEngine stopped." }
+}
+
+task __runTestsOnLocalAppEngine {
+    dependsOn = ['startAppEngine', 'runGCEAndroidTests']
+    finalizedBy stopAppEngine
+}
