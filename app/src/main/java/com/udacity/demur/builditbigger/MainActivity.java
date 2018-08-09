@@ -14,6 +14,8 @@ import com.udacity.demur.jokepresenter.JokeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MainActivityFragment mainActivityFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +45,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
+        setUpLoadingAppearance(true);
         final AsyncTask<EndpointsAsyncTask.JokeCallback, Void, String> loadJoke = new EndpointsAsyncTask();
         loadJoke.execute(new EndpointsAsyncTask.JokeCallback() {
             @Override
             public void fire(final String result, boolean errorFlag) {
+                setUpLoadingAppearance(false);
                 if (errorFlag) {
                     Log.e("Error loading joke:", result);
                     Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
@@ -61,5 +65,20 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = new Intent(this, JokeActivity.class);
         intent.putExtra(JokeActivity.JOKE_EXTRAS_KEY, joke);
         this.startActivity(intent);
+    }
+
+    private void setUpLoadingAppearance(boolean state) {
+        if (null == mainActivityFragment) {
+            mainActivityFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        }
+        if (null != mainActivityFragment) {
+            if (state) {
+                mainActivityFragment.setBtnEnabled(false);
+                mainActivityFragment.setLoadingIndicatorVisibility(View.VISIBLE);
+            } else {
+                mainActivityFragment.setBtnEnabled(true);
+                mainActivityFragment.setLoadingIndicatorVisibility(View.INVISIBLE);
+            }
+        }
     }
 }

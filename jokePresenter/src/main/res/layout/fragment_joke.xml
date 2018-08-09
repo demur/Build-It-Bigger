@@ -12,6 +12,12 @@
         android:id="@+id/tv_joke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/missing_joke" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingBottom="48dp"
+        android:text="@string/missing_joke"
+        android:textSize="24sp"
+        tools:text="Entered what I ate today into my new fitness app and it just sent an ambulance to my house." />
 
 </RelativeLayout>
