@@ -72,13 +72,7 @@ public class MainActivity extends AppCompatActivity {
             mainActivityFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         }
         if (null != mainActivityFragment) {
-            if (state) {
-                mainActivityFragment.setBtnEnabled(false);
-                mainActivityFragment.setLoadingIndicatorVisibility(View.VISIBLE);
-            } else {
-                mainActivityFragment.setBtnEnabled(true);
-                mainActivityFragment.setLoadingIndicatorVisibility(View.INVISIBLE);
-            }
+            mainActivityFragment.setLoadingAppearance(state);
         }
     }
 }
