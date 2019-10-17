@@ -1,8 +1,9 @@
 package com.udacity.demur.jokepresenter;
 
 import android.app.Application;
-import android.support.test.runner.AndroidJUnit4;
 import android.test.ApplicationTestCase;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.udacity.demur.builditbigger.EndpointsAsyncTask;
 
