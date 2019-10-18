@@ -36,4 +36,5 @@ dependencies {
 
 appengine {
     tools.cloudSdkHome "C:\\Program Files (x86)\\Google\\Cloud SDK\\google-cloud-sdk\\"
+    deploy.projectId 'GCLOUD_CONFIG'
 }
